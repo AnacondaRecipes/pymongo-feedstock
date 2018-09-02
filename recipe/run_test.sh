@@ -12,10 +12,15 @@ if [ "${TRAVIS}" != true ]; then
 
     mkdir "$DB_PATH"
 
-    mongod --dbpath="$DB_PATH" --fork --logpath="$LOG_PATH" --port="$DB_PORT" --pidfilepath="$PID_FILE_PATH"
+    if [ "${ARCH}" != "32" ]; then
+      ulimit -n 1024
+      mongod --dbpath="$DB_PATH" --fork --logpath="$LOG_PATH" --port="$DB_PORT" --pidfilepath="$PID_FILE_PATH"
+    fi
 
     python setup.py test
 
     # Terminate the forked process after the test suite exits
-    kill `cat $PID_FILE_PATH`
+    if [ "${ARCH}" != "32" ]; then
+      kill `cat $PID_FILE_PATH`
+    fi
 fi
