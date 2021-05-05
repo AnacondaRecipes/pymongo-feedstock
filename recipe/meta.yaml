@@ -14,23 +14,17 @@ build:
   script: python setup.py install --single-version-externally-managed --record=record.txt
   script_env:  # [osx]
     - TRAVIS   # [osx]
-    # Added from upsream: Three tests seem to fail on PPC64LE and PyPy
-    # test_monitoring test_gridfs_spec test_legacy_api
-    - python_impl
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
   host:
-    - python >=3.6
+    - python
     - setuptools
   run:
-    - python >=3.6
+    - python
 
-test:
-  source_files:
-    - .
   files:
     - run_the_tests.sh  
   imports:
@@ -45,7 +39,7 @@ test:
 
 about:
   home: https://github.com/mongodb/mongo-python-driver
-  license: Apache-2.0
+  license: Apache 2.0
   license_file: LICENSE
   summary: Python driver for MongoDB http://www.mongodb.org
 
