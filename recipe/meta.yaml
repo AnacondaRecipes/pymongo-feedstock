@@ -28,8 +28,6 @@ requirements:
 test:
   source_files:
     - .
-  files:
-    - run_the_tests.sh  
   imports:
     - bson
     - gridfs
@@ -37,8 +35,6 @@ test:
   requires:  # [not win]
     - mongodb  # [not win]
     - setuptools  # [not win]
-  commands:                  # [unix and not (ppc64le and python_impl=='pypy')]
-    - bash run_the_tests.sh  # [unix and not (ppc64le and python_impl=='pypy')]
 
 about:
   home: https://github.com/mongodb/mongo-python-driver
