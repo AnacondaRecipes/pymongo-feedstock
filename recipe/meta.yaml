@@ -25,6 +25,9 @@ requirements:
   run:
     - python
 
+test:
+  source_files:
+    - .
   files:
     - run_the_tests.sh  
   imports:
