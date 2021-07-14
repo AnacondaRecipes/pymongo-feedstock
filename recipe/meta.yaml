@@ -31,7 +31,7 @@ test:
   source_files:
     - .
   files:  # [not win and not ppc64le]
-    - run_the_tests.sh
+    - run_the_tests.sh   # [not win and not ppc64le]
   imports:
     - bson
     - gridfs
