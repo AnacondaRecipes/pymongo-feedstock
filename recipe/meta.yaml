@@ -30,7 +30,7 @@ requirements:
 test:
   source_files:
     - .
-  files:
+  files:  # [not win or not ppc64le]
     - run_the_tests.sh
   imports:
     - bson
@@ -39,10 +39,10 @@ test:
   requires:  # [not win]
     - mongodb  # [not win]
     - setuptools  # [not win]
-    - pip
+    - pip         #[not win]
   commands:
-    - bash run_the_tests.sh  # [unix and not (ppc64le and python_impl=='pypy')]
-    - pip check
+    - bash run_the_tests.sh  # [not win or not ppc64le]
+    - pip check  #[not win]
 
 about:
   home: https://github.com/mongodb/mongo-python-driver
