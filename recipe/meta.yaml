@@ -20,14 +20,18 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
   host:
-    - python
+    - python >=3.6
+    - pip
+    - wheel
     - setuptools
   run:
-    - python
+    - python >=3.6
 
 test:
   source_files:
     - .
+  files:
+    - run_the_tests.sh
   imports:
     - bson
     - gridfs
@@ -35,12 +39,19 @@ test:
   requires:  # [not win]
     - mongodb  # [not win]
     - setuptools  # [not win]
+    - pip
+  commands:
+    - bash run_the_tests.sh  # [unix and not (ppc64le and python_impl=='pypy')]
+    - pip check
 
 about:
   home: https://github.com/mongodb/mongo-python-driver
-  license: Apache 2.0
+  license: Apache-2.0
   license_file: LICENSE
+  license_family: Apache
   summary: Python driver for MongoDB http://www.mongodb.org
+  dev_url: https://github.com/mongodb/mongo-python-driver
+  doc_url: https://github.com/mongodb/mongo-python-driver#readme
 
 extra:
   recipe-maintainers:
