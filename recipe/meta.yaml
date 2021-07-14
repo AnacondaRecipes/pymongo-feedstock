@@ -30,7 +30,7 @@ requirements:
 test:
   source_files:
     - .
-  files:  # [not win or not ppc64le]
+  files:  # [not win and not ppc64le]
     - run_the_tests.sh
   imports:
     - bson
@@ -41,7 +41,7 @@ test:
     - setuptools  # [not win]
     - pip         #[not win]
   commands:
-    - bash run_the_tests.sh  # [not win or not ppc64le]
+    - bash run_the_tests.sh  # [not win and not ppc64le]
     - pip check  #[not win]
 
 about:
