@@ -51,7 +51,7 @@ about:
   license_family: Apache
   summary: Python driver for MongoDB http://www.mongodb.org
   dev_url: https://github.com/mongodb/mongo-python-driver
-  doc_url: https://github.com/mongodb/mongo-python-driver#readme
+  doc_url: https://pymongo.readthedocs.io/en/stable/index.html
 
 extra:
   recipe-maintainers:
