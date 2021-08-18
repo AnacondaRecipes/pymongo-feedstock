@@ -20,12 +20,12 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
   host:
-    - python >=3.6
+    - python
     - pip
     - wheel
     - setuptools
   run:
-    - python >=3.6
+    - python
 
 test:
   source_files:
