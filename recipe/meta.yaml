@@ -11,6 +11,8 @@ source:
 
 build:
   number: 0
+  # skip s390x due to missing mongodb in s390x
+  skip: True  # [s390x]
   script: python setup.py install --single-version-externally-managed --record=record.txt
   script_env:  # [osx]
     - TRAVIS   # [osx]
