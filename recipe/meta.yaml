@@ -31,18 +31,18 @@ requirements:
 test:
   source_files:
     - .
-  files:  # [linux and not (s390x or aarch64 or ppc64le)]
-    - run_the_tests.sh   # [linux and not (s390x or aarch64 or ppc64le)]
+  files:  # [linux and not (s390x or ppc64le)]
+    - run_the_tests.sh   # [linux and not (s390x or ppc64le)]
   imports:
     - bson
     - gridfs
     - pymongo
-  requires:       # [linux and not (s390x or aarch64 or ppc64le)]
-    - mongodb     # [linux and not (s390x or aarch64 or ppc64le)]
-    - setuptools  # [not win]
+  requires:
+    - mongodb     # [linux and not (s390x or ppc64le)]
     - pip
+    - setuptools
   commands:
-    - bash run_the_tests.sh  # [linux and not (s390x or aarch64 or ppc64le)]
+    - bash run_the_tests.sh  # [linux and not (s390x or ppc64le)]
     - pip check
 
 about:
