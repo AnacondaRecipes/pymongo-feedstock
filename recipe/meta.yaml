@@ -37,13 +37,13 @@ test:
     - bson
     - gridfs
     - pymongo
-  requires:  # [not win]
-    - mongodb  # [not win]
-    - setuptools  # [not win]
-    - pip         # [not win]
+  requires:       # [linux and not (s390x or aarch64 or ppc64le)]
+    - mongodb     # [linux and not (s390x or aarch64 or ppc64le)]
+    - setuptools  # [linux and not (s390x or aarch64 or ppc64le)]
+    - pip         # [linux and not (s390x or aarch64 or ppc64le)]
   commands:
     - bash run_the_tests.sh  # [linux and not (s390x or aarch64 or ppc64le)]
-    - pip check  # [not win]
+    - pip check              # [linux and not (s390x or aarch64 or ppc64le)]
 
 about:
   home: https://github.com/mongodb/mongo-python-driver
