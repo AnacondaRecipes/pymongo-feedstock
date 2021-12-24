@@ -13,7 +13,7 @@ build:
   number: 0
   # Skip s390x due to missing mongodb in s390x
   skip: True  # [py<36 or s390x]
-  script: python setup.py install --single-version-externally-managed --record=record.txt
+  script: {{ PYTHON }} -m pip install . -vv
   script_env:  # [osx]
     - TRAVIS   # [osx]
 
@@ -25,7 +25,6 @@ requirements:
     - python
     - pip
     - setuptools
-    - wheel
   run:
     - python
 
