@@ -11,6 +11,8 @@ source:
 
 build:
   number: 0
+  # Skip s390x due to missing mongodb in s390x
+  skip: True  # [py<36 or s390x]
   script: python setup.py install --single-version-externally-managed --record=record.txt
   script_env:  # [osx]
     - TRAVIS   # [osx]
@@ -22,8 +24,8 @@ requirements:
   host:
     - python
     - pip
-    - wheel
     - setuptools
+    - wheel
   run:
     - python
 
@@ -39,10 +41,10 @@ test:
   requires:  # [not win]
     - mongodb  # [not win]
     - setuptools  # [not win]
-    - pip         #[not win]
+    - pip         # [not win]
   commands:
     - bash run_the_tests.sh  # [linux and not (s390x or aarch64 or ppc64le)]
-    - pip check  #[not win]
+    - pip check  # [not win]
 
 about:
   home: https://github.com/mongodb/mongo-python-driver
