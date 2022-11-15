@@ -7,10 +7,11 @@ package:
 source:
   fn: pymongo-{{ version }}.tar.gz
   url: https://github.com/mongodb/mongo-python-driver/archive/{{ version }}.tar.gz
-  sha256: c03817fefb4fd36e6bd695525794ec80419d5bd1b577b6ec8ec9957e98f42285
+  sha256: 310e333a97c6beddaaeb1cc4206aa44dbdbe37adff6082ccec16f9cd0b882e50
 
 build:
   number: 0
+  skip: True  # [not linux and x86_64]
   script: {{ PYTHON }} -m pip install . --no-deps -vv
   script_env:  # [osx]
     - TRAVIS   # [osx]
