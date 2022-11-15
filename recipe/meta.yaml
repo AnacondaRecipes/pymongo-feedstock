@@ -1,4 +1,4 @@
-{% set version = "3.12.0" %}
+{% set version = "3.13.0" %}
 
 package:
   name: pymongo
@@ -11,7 +11,7 @@ source:
 
 build:
   number: 0
-  script: python setup.py install --single-version-externally-managed --record=record.txt
+  script: {{ PYTHON }} -m pip install . --no-deps -vv
   script_env:  # [osx]
     - TRAVIS   # [osx]
 
@@ -36,8 +36,8 @@ test:
     - bson
     - gridfs
     - pymongo
-  requires:  # [not win]
-    - mongodb  # [not win]
+  requires:       # [not win]
+    - mongodb     # [not win]
     - setuptools  # [not win]
     - pip         #[not win]
   commands:
