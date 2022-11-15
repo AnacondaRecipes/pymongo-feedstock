@@ -1,4 +1,4 @@
-{% set version = "3.12.0" %}
+{% set version = "3.13.0" %}
 
 package:
   name: pymongo
@@ -7,11 +7,12 @@ package:
 source:
   fn: pymongo-{{ version }}.tar.gz
   url: https://github.com/mongodb/mongo-python-driver/archive/{{ version }}.tar.gz
-  sha256: c03817fefb4fd36e6bd695525794ec80419d5bd1b577b6ec8ec9957e98f42285
+  sha256: 310e333a97c6beddaaeb1cc4206aa44dbdbe37adff6082ccec16f9cd0b882e50
 
 build:
   number: 0
-  script: python setup.py install --single-version-externally-managed --record=record.txt
+  skip: True  # [not linux64]
+  script: {{ PYTHON }} -m pip install . --no-deps -vv
   script_env:  # [osx]
     - TRAVIS   # [osx]
 
@@ -36,8 +37,8 @@ test:
     - bson
     - gridfs
     - pymongo
-  requires:  # [not win]
-    - mongodb  # [not win]
+  requires:       # [not win]
+    - mongodb     # [not win]
     - setuptools  # [not win]
     - pip         #[not win]
   commands:
