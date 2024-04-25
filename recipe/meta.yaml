@@ -29,19 +29,17 @@ requirements:
 test:
   source_files:
     - .
-  files:  # [linux and not (s390x or aarch64 or ppc64le)]
-    - run_the_tests.sh   # [linux and not (s390x or aarch64 or ppc64le)]
   imports:
     - bson
     - gridfs
     - pymongo
-  requires:  # [not win]
-    - mongodb  # [not win]
-    - setuptools  # [not win]
-    - pip         #[not win]
+  requires:
+    - setuptools
+    - pip
+    - pytest
   commands:
-    - bash run_the_tests.sh  # [linux and not (s390x or aarch64 or ppc64le)]
-    - pip check  #[not win]
+    - pytest .
+    - pip check
 
 about:
   home: https://github.com/mongodb/mongo-python-driver
