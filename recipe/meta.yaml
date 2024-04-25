@@ -1,4 +1,4 @@
-{% set version = "3.12.0" %}
+{% set version = "4.6.3" %}
 
 package:
   name: pymongo
@@ -7,13 +7,12 @@ package:
 source:
   fn: pymongo-{{ version }}.tar.gz
   url: https://github.com/mongodb/mongo-python-driver/archive/{{ version }}.tar.gz
-  sha256: c03817fefb4fd36e6bd695525794ec80419d5bd1b577b6ec8ec9957e98f42285
+  sha256: c3b1be222869a35fee67714b754ebe8c5e83553b34ec60a6e8870ba0ea4f4496
 
 build:
   number: 0
-  script: python setup.py install --single-version-externally-managed --record=record.txt
-  script_env:  # [osx]
-    - TRAVIS   # [osx]
+  skip: true  # [py<37]
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -v
 
 requirements:
   build:
@@ -26,23 +25,30 @@ requirements:
     - setuptools
   run:
     - python
+    - dnspython >=1.16.0,<3.0.0
+  run_constrained:
+    - pymongo-auth-aws <2.0.0
+    - pymongocrypt >=1.6.0,<2.0.0
+    - winkerberos >=0.5.0 # [win]
+    - pyopenssl >=17.2.0
+    - requests <3.0.0
+    - cryptography >=2.5
+    - service_identity >=18.1.0
 
 test:
   source_files:
-    - .
-  files:  # [linux and not (s390x or aarch64 or ppc64le)]
-    - run_the_tests.sh   # [linux and not (s390x or aarch64 or ppc64le)]
+    - test
+    - pytest.ini
   imports:
     - bson
     - gridfs
     - pymongo
-  requires:  # [not win]
-    - mongodb  # [not win]
-    - setuptools  # [not win]
-    - pip         #[not win]
+  requires:
+    - pip
+    - pytest >=7
   commands:
-    - bash run_the_tests.sh  # [linux and not (s390x or aarch64 or ppc64le)]
-    - pip check  #[not win]
+    - pytest .
+    - pip check
 
 about:
   home: https://github.com/mongodb/mongo-python-driver
@@ -50,6 +56,11 @@ about:
   license_file: LICENSE
   license_family: Apache
   summary: Python driver for MongoDB http://www.mongodb.org
+  description: |
+    The PyMongo distribution contains tools for interacting with MongoDB 
+    database from Python. The bson package is an implementation of the 
+    BSON format for Python. The pymongo package is a native Python driver 
+    for MongoDB. The gridfs package is a gridfs implementation on top of pymongo.
   dev_url: https://github.com/mongodb/mongo-python-driver
   doc_url: https://pymongo.readthedocs.io/en/stable/index.html
 
