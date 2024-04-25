@@ -26,18 +26,26 @@ requirements:
   run:
     - python
     - dnspython >=1.16.0,<3.0.0
+  run_constrained:
+    - pymongo-auth-aws <2.0.0
+    - pymongocrypt >=1.6.0,<2.0.0
+    - winkerberos >=0.5.0 # [win]
+    - pyopenssl >=17.2.0
+    - requests <3.0.0
+    - cryptography >=2.5
+    - service_identity >=18.1.0
 
 test:
   source_files:
-    - .
+    - test
+    - pytest.ini
   imports:
     - bson
     - gridfs
     - pymongo
   requires:
-    - setuptools
     - pip
-    - pytest
+    - pytest >=7
   commands:
     - pytest .
     - pip check
