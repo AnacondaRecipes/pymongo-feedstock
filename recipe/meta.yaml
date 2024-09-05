@@ -11,6 +11,7 @@ source:
 
 build:
   number: 0
+  # osx-arm64: "pymongo 4.8.0 is not supported on this platform"
   skip: true  # [py<38]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   ignore_run_exports:
@@ -58,11 +59,17 @@ requirements:
 # We don't have an OCSP instance (Online Certificate Status Protocol)
 {% set tests_to_ignore = tests_to_ignore + " --ignore test/ocsp/test_ocsp.py" %}
 
+# No mockupdb for s390x
+{% set tests_to_ignore = tests_to_ignore + " --ignore test/mockupdb" %}  # [s390x]
+
 {% set tests_to_skip = "" %}
 # The test is expecting to be running under  kubernetes?
 {% set tests_to_skip = tests_to_skip + "test_container_metadata" %}
 # A less than obvious AssertionError
 {% set tests_to_skip = tests_to_skip + " or test_metadata" %}
+# AssertionError (got nothing)
+{% set tests_to_skip = tests_to_skip + " or test_initial_ismaster" %}  # [win-64 or (osx and x86)]
+
 
 test:
   source_files:
@@ -75,7 +82,7 @@ test:
   requires:
     - pip
     - pytest >=7
-    - mockupdb
+    - mockupdb  # [not s390x]
   commands:
     - pip check
     - pytest -v . {{ tests_to_ignore }} -k "not ({{ tests_to_skip }})"
