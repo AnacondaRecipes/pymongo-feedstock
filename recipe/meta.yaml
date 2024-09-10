@@ -15,14 +15,10 @@ build:
   number: 0
   skip: true  # [py<38]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
-  ignore_run_exports:
-    - python
-    - libstdcxx-ng
 
 requirements:
   build:
     - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
     - patch     # [not win]
     - m2-patch  # [win]
   host:
