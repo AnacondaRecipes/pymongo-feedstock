@@ -77,7 +77,6 @@ requirements:
 test:
   source_files:
     - test
-    - mypy_test.ini
   imports:
     - bson
     - gridfs
