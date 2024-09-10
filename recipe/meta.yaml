@@ -13,7 +13,6 @@ source:
 
 build:
   number: 0
-  # osx-arm64: "pymongo 4.8.0 is not supported on this platform"
   skip: true  # [py<38]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   ignore_run_exports:
@@ -53,18 +52,18 @@ requirements:
 # It is now a ConfigurationError to not have pymongo_auth_aws
 {% set tests_to_ignore = tests_to_ignore + " --ignore=test/auth_aws/test_auth_aws.py" %}
 # pymongo.errors.ServerSelectionTimeoutError
-{% set tests_to_ignore = tests_to_ignore + " --ignore test/mod_wsgi_test/mod_wsgi_test.py" %}
+{% set tests_to_ignore = tests_to_ignore + " --ignore=test/mod_wsgi_test/mod_wsgi_test.py" %}
 # We don't have the test/performance/data files
-{% set tests_to_ignore = tests_to_ignore + " --ignore test/performance/perf_test.py" %}
+{% set tests_to_ignore = tests_to_ignore + " --ignore=test/performance/perf_test.py" %}
 # We don't have a mongodb instance
-{% set tests_to_ignore = tests_to_ignore + " --ignore test/auth_oidc/test_auth_oidc.py" %}
+{% set tests_to_ignore = tests_to_ignore + " --ignore=test/auth_oidc/test_auth_oidc.py" %}
 # We don't have an atlas instance (mongodb in the cloud)
-{% set tests_to_ignore = tests_to_ignore + " --ignore test/atlas/test_connection.py" %}
+{% set tests_to_ignore = tests_to_ignore + " --ignore=test/atlas/test_connection.py" %}
 # We don't have an OCSP instance (Online Certificate Status Protocol)
-{% set tests_to_ignore = tests_to_ignore + " --ignore test/ocsp/test_ocsp.py" %}
+{% set tests_to_ignore = tests_to_ignore + " --ignore=test/ocsp/test_ocsp.py" %}
 
 # No mockupdb for s390x
-{% set tests_to_ignore = tests_to_ignore + " --ignore test/mockupdb" %}  # [s390x]
+{% set tests_to_ignore = tests_to_ignore + " --ignore=test/mockupdb" %}  # [s390x]
 
 {% set tests_to_skip = "" %}
 # The test is expecting to be running under  kubernetes?
