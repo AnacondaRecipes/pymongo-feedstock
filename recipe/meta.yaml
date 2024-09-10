@@ -26,6 +26,7 @@ requirements:
     - pip
     - wheel
     - setuptools >=65.0
+    # we only have 1.21.1 at the moment, and it seems to work
     - hatchling # >1.24
     - hatch-requirements-txt >=0.4.1
   run:
