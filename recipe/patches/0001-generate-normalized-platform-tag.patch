@@ -1,35 +1,33 @@
-From 96354b0f7276c2d2ba45d909fbe468b2e0aaa938 Mon Sep 17 00:00:00 2001
+From 4dbb273e297191514ba5b787e28fb302be396554 Mon Sep 17 00:00:00 2001
 From: Ian Fitchet <ifitchet@anaconda.com>
-Date: Tue, 10 Sep 2024 18:47:53 +0100
+Date: Wed, 11 Sep 2024 10:09:16 +0100
 Subject: [PATCH] generate normalized platform tag
 
 ---
- hatch_build.py | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ hatch_build.py | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/hatch_build.py b/hatch_build.py
-index 91315eb0..26b1f1ca 100644
+index 91315eb0..416c2a7b 100644
 --- a/hatch_build.py
 +++ b/hatch_build.py
-@@ -7,8 +7,17 @@ import sys
+@@ -7,8 +7,15 @@ import sys
  from pathlib import Path
  
  from hatchling.builders.hooks.plugin.interface import BuildHookInterface
-+from packaging.tags import platform_tags
-+import sysconfig
++from packaging.tags import platform_tags, sys_tags
  
  
 +
 +def get_tag() -> str:
 +    """Get appropriate wheel tag according to system"""
 +    platform_tag = next(platform_tags())
-+    nodot = sysconfig.get_config_vars()['py_version_nodot']
-+    return f"cp{nodot}-cp{nodot}-{platform_tag}"
++    return str(next(tag for tag in sys_tags() if platform_tag == tag.platform))
 +
  class CustomHook(BuildHookInterface):
      """The pymongo build hook."""
  
-@@ -23,6 +32,7 @@ class CustomHook(BuildHookInterface):
+@@ -23,6 +30,7 @@ class CustomHook(BuildHookInterface):
  
          # Ensure wheel is marked as binary and contains the binary files.
          build_data["infer_tag"] = True
