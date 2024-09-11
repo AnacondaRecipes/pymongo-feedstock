@@ -34,15 +34,11 @@ requirements:
   run_constrained:
     - pymongo-auth-aws >=1.1.0,<2.0.0
     - pymongocrypt >=1.6.0,<2.0.0
-    - certifi             # [win or osx]
-    - pykerberos          # [not win]
     - winkerberos >=0.5.0 # [win]
     - pyopenssl >=17.2.0
     - requests <3.0.0
     - cryptography >=2.5
     - service_identity >=18.1.0
-    - python-snappy
-    - zstandard
 
 {% set tests_to_ignore = "" %}
 # It is now a ConfigurationError to not have pymongo_auth_aws
