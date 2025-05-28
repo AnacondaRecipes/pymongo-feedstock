@@ -1,39 +1,33 @@
-{% set version = "4.8.0" %}
+{% set name = "pymongo" %}
+{% set version = "4.13.0" %}
 
 package:
-  name: pymongo
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  fn: pymongo-{{ version }}.tar.gz
   url: https://github.com/mongodb/mongo-python-driver/archive/{{ version }}.tar.gz
-  sha256: 3639d459b06257b529c5675bb68e0f89d4a4d77fe5f76c01107202c3ba52d4cb
-  patches:                                                 # [osx and arm64]
-    - patches/0001-generate-normalized-platform-tag.patch  # [osx and arm64]
+  sha256: 06371a91fc56f17c6c6a699778c930aa92acb293b0f76ae4398263cb8e56f0c0
 
 build:
   number: 0
-  skip: true  # [py<38]
-  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
+  skip: true  # [py<39]
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   build:
     - {{ compiler('c') }}
-    - patch     # [osx and arm64]
   host:
     - python
     - pip
-    - wheel
-    - setuptools >=65.0
-    # we only have 1.21.1 at the moment, and it seems to work
-    - hatchling # >1.24
+    - hatchling >1.24
     - hatch-requirements-txt >=0.4.1
   run:
     - python
     - dnspython >=1.16.0,<3.0.0
   run_constrained:
     - pymongo-auth-aws >=1.1.0,<2.0.0
-    - pymongocrypt >=1.6.0,<2.0.0
+    - pymongocrypt >=1.13.0,<2.0.0
     - winkerberos >=0.5.0 # [win]
     - pyopenssl >=17.2.0
     - requests <3.0.0
@@ -47,6 +41,7 @@ requirements:
 {% set tests_to_ignore = tests_to_ignore + " --ignore=test/mod_wsgi_test/mod_wsgi_test.py" %}
 # We don't have the test/performance/data files
 {% set tests_to_ignore = tests_to_ignore + " --ignore=test/performance/perf_test.py" %}
+{% set tests_to_ignore = tests_to_ignore + " --ignore=test/performance/async_perf_test.py" %}
 # We don't have a mongodb instance
 {% set tests_to_ignore = tests_to_ignore + " --ignore=test/auth_oidc/test_auth_oidc.py" %}
 # We don't have an atlas instance (mongodb in the cloud)
@@ -54,17 +49,22 @@ requirements:
 # We don't have an OCSP instance (Online Certificate Status Protocol)
 {% set tests_to_ignore = tests_to_ignore + " --ignore=test/ocsp/test_ocsp.py" %}
 
-# No mockupdb for s390x
-{% set tests_to_ignore = tests_to_ignore + " --ignore=test/mockupdb" %}  # [s390x]
+#assert inspect.iscoroutinefunction(func), f"{func!r} is not an async function"
+{% set tests_to_ignore = tests_to_ignore + " --ignore=test/asynchronous/test_encryption.py" %}
+
+# cls.username = os.environ["DB_USER"] -> 
+{% set tests_to_ignore = tests_to_ignore + " --ignore=test/asynchronous/test_index_management.py" %}
+{% set tests_to_ignore = tests_to_ignore + " --ignore=test/test_index_management.py" %}
 
 {% set tests_to_skip = "" %}
-# The test is expecting to be running under  kubernetes?
+# The test is expecting to be running under kubernetes?
 {% set tests_to_skip = tests_to_skip + "test_container_metadata" %}
 # A less than obvious AssertionError
 {% set tests_to_skip = tests_to_skip + " or test_metadata" %}
 # AssertionError (got nothing)
 {% set tests_to_skip = tests_to_skip + " or test_initial_ismaster" %}  # [win-64 or (osx and x86)]
-
+# AssertionError: False is not true : client context must be connected to data lake when DATA_LAKE is set.
+{% set tests_to_skip = tests_to_skip + " or test_connected_to_data_lake" %}
 
 test:
   source_files:
@@ -75,11 +75,13 @@ test:
     - pymongo
   requires:
     - pip
-    - pytest >=7
-    - mockupdb  # [not s390x]
+    - pytest >=8.2
+    - mockupdb
+    - pytest-asyncio >=0.24.0
   commands:
     - pip check
-    - pytest -v . {{ tests_to_ignore }} -k "not ({{ tests_to_skip }})"
+    - pytest -v test {{ tests_to_ignore }} -k "not ({{ tests_to_skip }})"
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
 
 about:
   home: https://www.mongodb.org
@@ -93,7 +95,7 @@ about:
     BSON format for Python. The pymongo package is a native Python driver 
     for MongoDB. The gridfs package is a gridfs implementation on top of pymongo.
   dev_url: https://github.com/mongodb/mongo-python-driver
-  doc_url: https://pymongo.readthedocs.io
+  doc_url: https://www.mongodb.com/docs/languages/python/pymongo-driver/current/
 
 extra:
   recipe-maintainers:
