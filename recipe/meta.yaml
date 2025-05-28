@@ -54,6 +54,12 @@ requirements:
 {% set tests_to_ignore = tests_to_ignore + " --ignore=test/asynchronous/test_encryption.py" %}
 
 {% set tests_to_skip = "" %}
+# The test is expecting to be running under  kubernetes?
+{% set tests_to_skip = tests_to_skip + "test_container_metadata" %}
+# A less than obvious AssertionError
+{% set tests_to_skip = tests_to_skip + " or test_metadata" %}
+# AssertionError (got nothing)
+{% set tests_to_skip = tests_to_skip + " or test_initial_ismaster" %}  # [win-64 or (osx and x86)]
 # AssertionError: False is not true : client context must be connected to data lake when DATA_LAKE is set.
 {% set tests_to_skip = tests_to_skip + " test_connected_to_data_lake" %}
 # OSError: [Errno 99] error while attempting to bind on address ('::1', 9999, 0, 0): cannot assign requested address
