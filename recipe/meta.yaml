@@ -61,7 +61,7 @@ requirements:
 # AssertionError (got nothing)
 {% set tests_to_skip = tests_to_skip + " or test_initial_ismaster" %}  # [win-64 or (osx and x86)]
 # AssertionError: False is not true : client context must be connected to data lake when DATA_LAKE is set.
-{% set tests_to_skip = tests_to_skip + " test_connected_to_data_lake" %}
+{% set tests_to_skip = tests_to_skip + " or test_connected_to_data_lake" %}
 # OSError: [Errno 99] error while attempting to bind on address ('::1', 9999, 0, 0): cannot assign requested address
 {% set tests_to_skip = tests_to_skip + " or test_heartbeat_start_ordering" %}  # [linux]
 
