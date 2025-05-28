@@ -50,7 +50,7 @@ requirements:
 {% set tests_to_ignore = tests_to_ignore + " --ignore=test/ocsp/test_ocsp.py" %}
 # cls.username = os.environ["DB_USER"] -> KeyError: 'DB_USER'
 {% set tests_to_ignore = tests_to_ignore + " --ignore=test/asynchronous/test_index_management.py" %}
-# {% set tests_to_ignore = tests_to_ignore + " --ignore=test/test_index_management.py" %}
+{% set tests_to_ignore = tests_to_ignore + " --ignore=test/test_index_management.py" %}
 # https://github.com/pytest-dev/pytest-asyncio/issues/810
 # assert inspect.iscoroutinefunction(func), f"{func!r} is not an async function"
 {% set tests_to_ignore = tests_to_ignore + " --ignore=test/asynchronous/test_encryption.py" %}
