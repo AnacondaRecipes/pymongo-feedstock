@@ -37,8 +37,6 @@ requirements:
 {% set tests_to_ignore = "" %}
 # It is now a ConfigurationError to not have pymongo_auth_aws
 {% set tests_to_ignore = tests_to_ignore + " --ignore=test/auth_aws/test_auth_aws.py" %}
-# pymongo.errors.ServerSelectionTimeoutError
-{% set tests_to_ignore = tests_to_ignore + " --ignore=test/mod_wsgi_test/mod_wsgi_test.py" %}
 # We don't have the test/performance/data files
 {% set tests_to_ignore = tests_to_ignore + " --ignore=test/performance/perf_test.py" %}
 {% set tests_to_ignore = tests_to_ignore + " --ignore=test/performance/async_perf_test.py" %}
@@ -56,14 +54,8 @@ requirements:
 {% set tests_to_ignore = tests_to_ignore + " --ignore=test/asynchronous/test_encryption.py" %}
 
 {% set tests_to_skip = "" %}
-# The test is expecting to be running under kubernetes?
-{% set tests_to_skip = tests_to_skip + "test_container_metadata" %}
-# A less than obvious AssertionError
-{% set tests_to_skip = tests_to_skip + " or test_metadata" %}
-# AssertionError (got nothing)
-{% set tests_to_skip = tests_to_skip + " or test_initial_ismaster" %}  # [win-64 or (osx and x86)]
 # AssertionError: False is not true : client context must be connected to data lake when DATA_LAKE is set.
-{% set tests_to_skip = tests_to_skip + " or test_connected_to_data_lake" %}
+{% set tests_to_skip = tests_to_skip + " test_connected_to_data_lake" %}
 # OSError: [Errno 99] error while attempting to bind on address ('::1', 9999, 0, 0): cannot assign requested address
 {% set tests_to_skip = tests_to_skip + " or test_heartbeat_start_ordering" %}  # [linux]
 
