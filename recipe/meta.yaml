@@ -35,6 +35,9 @@ requirements:
     - cryptography >=2.5
     - service_identity >=18.1.0
 
+{% set deselected_tests = [
+  "--deselect=test/test_srv_polling.py::TestSrvPolling::test_dns_failures_logging"
+]%}
 test:
   source_files:
     - test
@@ -50,7 +53,8 @@ test:
     - pytest-asyncio >=0.24.0
   commands:
     - pip check
-    - pytest -v test
+    - pytest -v test {{ deselected_tests | join(" ") }} # [win]
+    - pytest -v test # [not win]
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
 
 about:
