@@ -1,5 +1,8 @@
 {% set name = "pymongo" %}
 {% set version = "4.15.4" %}
+{% set deselected_tests = [
+  "--deselect=test/test_srv_polling.py::TestSrvPolling::test_dns_failures_logging"
+] %}
 
 package:
   name: {{ name|lower }}
@@ -10,7 +13,7 @@ source:
   sha256: cb6490e009b8f8dcc12b074774dd3673c0d721fabcfbe8c93db9e4a4ed017162
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py<39]
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
@@ -34,9 +37,6 @@ requirements:
     - cryptography >=2.5
     - service_identity >=18.1.0
 
-{% set deselected_tests = [
-  "--deselect=test/test_srv_polling.py::TestSrvPolling::test_dns_failures_logging"
-]%}
 test:
   source_files:
     - test
@@ -52,8 +52,8 @@ test:
     - pytest-asyncio >=0.24.0
   commands:
     - pip check
-    - pytest -v test {{ deselected_tests | join(" ") }} # [win]
-    - pytest -v test # [not win]
+    - pytest -v test {{ deselected_tests | join(" ") }}  # [win]
+    - pytest -v test  # [not win]
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
 
 about:
