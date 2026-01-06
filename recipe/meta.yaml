@@ -1,8 +1,5 @@
 {% set name = "pymongo" %}
 {% set version = "4.15.4" %}
-{% set deselected_tests = [
-  "--deselect=test/test_srv_polling.py::TestSrvPolling::test_dns_failures_logging"
-] %}
 
 package:
   name: {{ name|lower }}
@@ -37,6 +34,10 @@ requirements:
     - cryptography >=2.5
     - service_identity >=18.1.0
 
+{% set deselected_tests = [
+  "--deselect=test/test_srv_polling.py::TestSrvPolling::test_dns_failures_logging"
+] %}
+
 test:
   source_files:
     - test
@@ -48,7 +49,8 @@ test:
   requires:
     - pip
     - pytest >=8.2
-    - mockupdb
+    # mockupdb is not maintained and not available for Python 3.14 and later
+    - mockupdb  # [py<314]
     - pytest-asyncio >=0.24.0
   commands:
     - pip check
