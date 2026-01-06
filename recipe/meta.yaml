@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/mongodb/mongo-python-driver/archive/{{ version }}.tar.gz
-  sha256: 3a8d6bf2610abe0c97c567cf98bf5bba3e90ccc93cc03c9dde75fa11e4267b42
+  sha256: mockupdb is not maintained and not available for Python 3.14 and later
 
 build:
   number: 0
