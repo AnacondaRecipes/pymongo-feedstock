@@ -1,8 +1,5 @@
 {% set name = "pymongo" %}
 {% set version = "4.17.0" %}
-{% set deselected_tests = [
-  "--deselect=test/test_srv_polling.py::TestSrvPolling::test_dns_failures_logging"
-] %}
 
 package:
   name: {{ name|lower }}
@@ -37,6 +34,10 @@ requirements:
     - requests <3.0.0
     - cryptography >=2.5
     - service_identity >=18.1.0
+
+{% set deselected_tests = [
+  "--deselect=test/test_srv_polling.py::TestSrvPolling::test_dns_failures_logging"
+] %}
 
 test:
   source_files:
