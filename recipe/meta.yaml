@@ -1,5 +1,8 @@
 {% set name = "pymongo" %}
-{% set version = "4.17.0" %}
+{% set version = "4.18.1" %}
+{% set deselected_tests = [
+  "--deselect=test/test_srv_polling.py::TestSrvPolling::test_dns_failures_logging"
+] %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +10,7 @@ package:
 
 source:
   url: https://github.com/mongodb/mongo-python-driver/archive/{{ version }}.tar.gz
-  sha256: f1b14b9ebf53a738b1663050224241024b3efca7ad2aa2d627dcc330922f1116
+  sha256: 9a9e17314716163c6927db8ef96e295fd26f39ac923614baac4cba8211abc3e1
 
 build:
   number: 0
@@ -34,10 +37,6 @@ requirements:
     - requests <3.0.0
     - cryptography >=2.5
     - service_identity >=18.1.0
-
-{% set deselected_tests = [
-  "--deselect=test/test_srv_polling.py::TestSrvPolling::test_dns_failures_logging"
-] %}
 
 test:
   source_files:
