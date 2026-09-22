@@ -1,17 +1,15 @@
 {% set name = "pymongo" %}
 {% set version = "4.18.1" %}
-{% set deselected_tests = [
-  "--deselect=test/test_srv_polling.py::TestSrvPolling::test_dns_failures_logging"
-] %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://github.com/mongodb/mongo-python-driver/archive/{{ version }}.tar.gz
   sha256: 9a9e17314716163c6927db8ef96e295fd26f39ac923614baac4cba8211abc3e1
 
+# Upstream source - https://github.com/mongodb/mongo-python-driver/blob/4.18.1/pyproject.toml
 build:
   number: 0
   skip: true  # [py<39]
@@ -29,15 +27,28 @@ requirements:
     - setuptools >=65.0
   run:
     - python
-    - dnspython <3.0.0,>=1.16.0
+    # Upstream source for dnspython - https://github.com/mongodb/mongo-python-driver/blob/4.18.1/requirements.txt
+    - dnspython >=2.7.0,<3.0.0
   run_constrained:
-    - pymongo-auth-aws >=1.1.0,<2.0.0
-    - pymongocrypt >=1.13.0,<2.0.0
-    - pyopenssl >=17.2.0
-    - requests <3.0.0
-    - cryptography >=2.5
-    - service_identity >=18.1.0
+    # Upstream source - https://github.com/mongodb/mongo-python-driver/blob/127d140440715f2897ccf74d35fec47a32e34af8/pyproject.toml#L94
+    # aes.txt
+    - pymongo-auth-aws >=1.3.0,<2.0.0
+    # encryption.txt
+    - pymongocrypt >=1.18.1,<2.0.0
+    - certifi >=2023.7.22  # [osx]
+    # gssapi.txt
+    - pykerberos >=1.2.4
+    - winkerberos>=0.12.2
+    # ocsp.txt
+    - pyopenssl >=26.2.0
+    - requests >=2.23.0,<3.0
+    - cryptography >=47.0.0
+    - service_identity >=24.2.0
+    # zstd.txt
+    - backports.zstd >=1.0.0  # [py<314]
 
+{% set deselected_tests = "" %}
+{% set deselected_tests = " --deselect=test/test_srv_polling.py::TestSrvPolling::test_dns_failures_logging" %}  # [win]
 test:
   source_files:
     - test
@@ -52,14 +63,14 @@ test:
     # mockupdb is not maintained and not available for Python 3.14 and later
     - mockupdb  # [py<314]
     - pytest-asyncio >=0.24.0
+    - importlib_metadata >=7.0  # [py<313]
   commands:
     - pip check
-    - pytest -v test {{ deselected_tests | join(" ") }}  # [win]
-    - pytest -v test  # [not win]
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - pytest -vv test {{ deselected_tests }}
 
 about:
-  home: https://www.mongodb.org
+  home: https://www.mongodb.com/
   license: Apache-2.0
   license_file: LICENSE
   license_family: Apache
@@ -70,7 +81,7 @@ about:
     BSON format for Python. The pymongo package is a native Python driver
     for MongoDB. The gridfs package is a gridfs implementation on top of pymongo.
   dev_url: https://github.com/mongodb/mongo-python-driver
-  doc_url: https://www.mongodb.com/docs/languages/python/pymongo-driver/current
+  doc_url: https://www.mongodb.com/docs/languages/python/pymongo-driver/current/
 
 extra:
   recipe-maintainers:
