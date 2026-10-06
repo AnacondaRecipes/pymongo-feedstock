@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/mongodb/mongo-python-driver/archive/{{ version }}.tar.gz
-  sha256: 9a9e17314716163c6927db8ef96e295fd26f39ac923614baac4cba8211abc3e1
+  sha256: e0d91aa64a64f8daa69e7097823d879b047b84ba13a704785d0242e87baf6f64
 
 # Upstream source - https://github.com/mongodb/mongo-python-driver/blob/4.18.1/pyproject.toml
 build:
