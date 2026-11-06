@@ -1,5 +1,5 @@
 {% set name = "pymongo" %}
-{% set version = "4.18.2" %}
+{% set version = "4.19.0" %}
 
 package:
   name: {{ name }}
@@ -7,12 +7,12 @@ package:
 
 source:
   url: https://github.com/mongodb/mongo-python-driver/archive/{{ version }}.tar.gz
-  sha256: e0d91aa64a64f8daa69e7097823d879b047b84ba13a704785d0242e87baf6f64
+  sha256: 028934ad6d8d9a7b46aac9a1548451ec0f41ae64be820dc50d2ce4a0d2775a99
 
-# Upstream source - https://github.com/mongodb/mongo-python-driver/blob/4.18.1/pyproject.toml
+# Upstream source - https://github.com/mongodb/mongo-python-driver/blob/4.19.0/pyproject.toml
 build:
   number: 0
-  skip: true  # [py<39]
+  skip: true  # [py<311]
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
@@ -27,20 +27,20 @@ requirements:
     - setuptools >=65.0
   run:
     - python
-    # Upstream source for dnspython - https://github.com/mongodb/mongo-python-driver/blob/4.18.1/requirements.txt
+    # Upstream source for dnspython - https://github.com/mongodb/mongo-python-driver/blob/4.19.0/requirements.txt
     - dnspython >=2.7.0,<3.0.0
   run_constrained:
-    # Upstream source - https://github.com/mongodb/mongo-python-driver/blob/4.18.2/pyproject.toml#L94
+    # Upstream source - https://github.com/mongodb/mongo-python-driver/blob/4.19.0/pyproject.toml#L100
     # aws.txt
     - pymongo-auth-aws >=1.3.0,<2.0.0
     # encryption.txt
     - pymongocrypt >=1.18.1,<2.0.0
-    - certifi >=2023.7.22  # [osx]
+    - certifi >=2023.7.22  # [osx or win]
     # gssapi.txt
     - pykerberos >=1.2.4
     - winkerberos>=0.12.2
     # ocsp.txt
-    - certifi >=2023.7.22  # [osx]
+    - certifi >=2023.7.22  # [osx or win]
     - pyopenssl >=26.2.0
     - requests >=2.23.0,<3.0
     - cryptography >=47.0.0
